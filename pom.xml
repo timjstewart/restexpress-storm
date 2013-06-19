@@ -6,8 +6,11 @@
    <version>1.0-SNAPSHOT</version>
    <name/>
    <description>A Storm Spout that receives messages over HTTP via RestExpress and then provides those messages to a Storm Topology via a Spout.</description>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
    <scm>
-      <url>http://www.github.com/user/project-name</url>
+      <url>http://github.com/timjstewart/restexpress-storm</url>
    </scm>
    <build>
       <plugins>

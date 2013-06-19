@@ -35,19 +35,23 @@ public class RestExpressSpoutConfig implements Serializable {
 		return port;
 	}
 
-	public void setWorkerCount(int workerCount) {
+	public RestExpressSpoutConfig setWorkerCount(int workerCount) {
 		this.workerCount = workerCount;
+        return this;
 	}
 
-	public void setThreadCount(int threadCount) {
+	public RestExpressSpoutConfig setThreadCount(int threadCount) {
 		this.threadCount = threadCount;
+        return this;
 	}
 
-	public void setSpoutPollingDelayMillis(long spoutPollingDelayMillis) {
+	public RestExpressSpoutConfig setSpoutPollingDelayMillis(long spoutPollingDelayMillis) {
 		this.spoutPollingDelayMillis = spoutPollingDelayMillis;
+        return this;
 	}
 
-	public void setPort(int port) {
+	public RestExpressSpoutConfig setPort(int port) {
 		this.port = port;
+        return this;
 	}
 }

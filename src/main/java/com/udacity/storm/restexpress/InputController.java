@@ -7,22 +7,23 @@ import com.strategicgains.restexpress.Request;
 import com.strategicgains.restexpress.Response;
 
 public class InputController<BodyType> {
-	final BlockingQueue<Emission> _queue;
-	final RouteToStreamDefinition<BodyType> _rtsDef;
-	final Class<BodyType> _clazz;
+	final BlockingQueue<Emission> queue;
+	final RouteToStreamDefinition<BodyType> rtsDef;
+	final Class<BodyType> clazz;
 	
-	public InputController(BlockingQueue<Emission> queue, RouteToStreamDefinition<BodyType> rtsDef, Class<BodyType> clazz) {
-		_queue = queue;
-		_rtsDef = rtsDef;
-		_clazz = clazz;
+	public InputController(final BlockingQueue<Emission> queue, final RouteToStreamDefinition<BodyType> rtsDef) {
+		this.queue  = queue;
+		this.rtsDef = rtsDef;
+		this.clazz  = rtsDef.getBodyType();
 	}
 	
 	public void handle(Request request, Response response) {
-		BodyType input = request.getBodyAs(_clazz);
+		BodyType input = request.getBodyAs(clazz);
 		
-		List<Emission> emissions = _rtsDef.handle(input);
+		List<Emission> emissions = rtsDef.handle(input);
 		
-		_queue.addAll(emissions);
+		queue.addAll(emissions);
+
 		response.setResponseCreated();
 	}
 }

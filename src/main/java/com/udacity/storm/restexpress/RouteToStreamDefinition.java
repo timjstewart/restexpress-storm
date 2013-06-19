@@ -6,6 +6,7 @@ import java.util.List;
 import backtype.storm.topology.OutputFieldsDeclarer;
 
 public class RouteToStreamDefinition<BodyType> implements Serializable {
+
 	private static final long serialVersionUID = 3231142313439090235L;
 
 	private final String urlPattern;
@@ -13,7 +14,9 @@ public class RouteToStreamDefinition<BodyType> implements Serializable {
 	private final RouteToStreamDefinitionHandler<BodyType> handler;
 	private final String[] methods;
 	
-	public RouteToStreamDefinition(String urlPattern, Class<BodyType> bodyType, RouteToStreamDefinitionHandler<BodyType> handler, String... methods) {
+	public RouteToStreamDefinition(final String urlPattern, final Class<BodyType> bodyType, 
+                                   final RouteToStreamDefinitionHandler<BodyType> handler, 
+                                   final String... methods) {
 		if((methods == null || methods.length == 0))
 			throw new IllegalArgumentException("At least one HttpMethod should be specified when instantiating RouteToStreamDefinition");
 		
@@ -42,4 +45,5 @@ public class RouteToStreamDefinition<BodyType> implements Serializable {
 	public Class<BodyType> getBodyType() {
 		return bodyType;
 	}
+
 }

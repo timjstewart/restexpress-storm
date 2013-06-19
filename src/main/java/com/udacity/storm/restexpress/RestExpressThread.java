@@ -10,14 +10,15 @@ import com.strategicgains.restexpress.RestExpress;
 import com.strategicgains.restexpress.pipeline.SimpleConsoleLogMessageObserver;
 import com.strategicgains.restexpress.response.DefaultResponseWrapper;
 import com.strategicgains.restexpress.response.ResponseProcessor;
+import com.strategicgains.restexpress.serialization.json.DefaultJsonProcessor;
 
 public class RestExpressThread extends Thread {
-	final int workerCount;
-	final int executorThreadCount;
-	final int port;
-	final BlockingQueue<Emission> queue;
-	final List<RouteToStreamDefinition<?>> rtsDefs;
-	
+
+	private final int workerCount;
+	private final int executorThreadCount;
+	private final int port;
+	private final BlockingQueue<Emission> queue;
+	private final List<RouteToStreamDefinition<?>> rtsDefs;
 
 	public RestExpressThread(int workerCount, int executorThreadCount, int port, BlockingQueue<Emission> queue, List<RouteToStreamDefinition<?>> rtsDefs) {
 		super();
@@ -36,13 +37,13 @@ public class RestExpressThread extends Thread {
 			.setName("RestExpressSpout")
 			.setPort(port)
 			.setDefaultFormat(Format.JSON)
-			.putResponseProcessor(Format.JSON, new ResponseProcessor(new JsonSerializationProcessor(), new DefaultResponseWrapper()))
+			.putResponseProcessor(Format.JSON, new ResponseProcessor(new DefaultJsonProcessor(), new DefaultResponseWrapper()))
 			.addMessageObserver(new SimpleConsoleLogMessageObserver());
 		
 		for(RouteToStreamDefinition<?> def: rtsDefs) {
 			for(String methodString: def.getMethods()) {
 				HttpMethod method = HttpMethod.valueOf(methodString);
-				server.uri(def.getUrlPattern(), new InputController(queue, def, def.getBodyType())).action("handle", method);			
+				server.uri(def.getUrlPattern(), new InputController(queue, def)).action("handle", method);			
 			}
 		}
 
